@@ -1,14 +1,18 @@
 package com.example.hsm.myapplication;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     SharedPreferences sp;
 
@@ -17,19 +21,33 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sp = getPreferences(MODE_PRIVATE);
-        if(sp.getInt("firstRun",MODE_PRIVATE)==0)
-        {
-            Toast t = Toast.makeText(getApplicationContext(), "First", Toast.LENGTH_SHORT);
-            t.show();
+        boolean b = sp.contains("myVariable");
+        Log.d("myLog",String.valueOf(b));
+        String savedText = sp.getString("myVariable", "0");
+        Log.d("myLog",savedText);
+        Log.d("myLog", String.valueOf(savedText.length()));
+        Toast.makeText(this, savedText, Toast.LENGTH_SHORT).show();
+        if(savedText=="0"){
+
+            Toast.makeText(this, "firstRun", Toast.LENGTH_SHORT).show();
+            sp = getPreferences(MODE_PRIVATE);
             SharedPreferences.Editor ed = sp.edit();
-            ed.putString("firstRun", "1");
+            ed.putString("myVariable","1");
             ed.commit();
-        }
-        else
-        {
-            Toast t = Toast.makeText(getApplicationContext(), "First", Toast.LENGTH_SHORT);
-            t.show();
-        }
+
+        }else
+            Toast.makeText(this, "secondRun", Toast.LENGTH_SHORT).show();
+
+    }
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+    }
+    @Override
+    public void onClick(View v) {
+
     }
 
     @Override
