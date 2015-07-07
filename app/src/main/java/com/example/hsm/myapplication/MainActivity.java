@@ -1,17 +1,35 @@
 package com.example.hsm.myapplication;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sp = getPreferences(MODE_PRIVATE);
+        if(sp.getInt("firstRun",MODE_PRIVATE)==0)
+        {
+            Toast t = Toast.makeText(getApplicationContext(), "First", Toast.LENGTH_SHORT);
+            t.show();
+            SharedPreferences.Editor ed = sp.edit();
+            ed.putString("firstRun", "1");
+            ed.commit();
+        }
+        else
+        {
+            Toast t = Toast.makeText(getApplicationContext(), "First", Toast.LENGTH_SHORT);
+            t.show();
+        }
     }
 
     @Override
